@@ -6,7 +6,7 @@ About
 -----
 
 ``hlsearch`` is a quick search utility for `Hero Lab <http://wolflair.com/index.php?context=hero_lab>`_
-which will search through all .por and .stock files and parse through them looking to match the creature
+which will search through a directory of .por and .stock files and parse through them looking to match the creature
 names inside them against supplied user data.
 
 Installation
@@ -30,6 +30,11 @@ Select the directory where you have your por or stock files stored. Then put in 
 on Search Files. It may take awhile for it to search through all the files.
 
 For the search field you can use Python compatible regex.
+
+License
+-------
+
+``hlsearch`` is released under the GPLv3 license.
 
 
 .. _python: http://www.python.org/
