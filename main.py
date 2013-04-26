@@ -11,8 +11,7 @@ import zipfile
 class App:
     def __init__(self, master):
 
-        #self.search_dir = os.getcwd()
-        self.search_dir = '/home/mmealman/hl_data'
+        self.search_dir = os.getcwd()
         frame = tk.Frame(master)
         master.title('Hero Lab Search')
         frame.grid()
