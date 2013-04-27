@@ -90,7 +90,9 @@ class App:
                     self.progressFrame.update()
                     lab_zip.close()
                 except zipfile.BadZipfile:
-                    pass
+                    self.progressFrame.text.insert(tk.INSERT, '!!! ' + filename +
+                                                              ' does not appear to be in zip format\n')
+                    self.progressFrame.text.see(tk.END)
 
         self.progressFrame.text.insert(tk.INSERT, '\nCompleted')
         self.progressFrame.text.see(tk.END)
