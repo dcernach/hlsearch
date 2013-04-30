@@ -73,20 +73,26 @@ class App:
             if re.match('.*\.stock|.*\.por', filename):
                 try:
                     lab_zip = zipfile.ZipFile(self.search_dir + '/' + filename, 'r')
-                    for name in lab_zip.namelist():
-                        if re.search('statblocks_xml.*\.xml', name):
-                            xml_file = lab_zip.open(name)
-                            tree = ET.parse(xml_file)
-                            xml_file.close()
-                            root = tree.getroot()
+                    index_xml = lab_zip.open('index.xml')
+                    tree = ET.parse(index_xml)
+                    index_xml.close()
+                    index_root = tree.getroot()
+                    for index_char in index_root.iter('character'):
+                        for statblock in index_char.iter('statblock'):
+                            if statblock.get('format') == 'xml':
+                                name = statblock.get('folder') + '/' + statblock.get('filename')
+                                xml_file = lab_zip.open(name)
+                                tree = ET.parse(xml_file)
+                                xml_file.close()
+                                root = tree.getroot()
 
-                            for char in root.iter('character'):
-                                minions = char.find('minions')
-                                char.remove(minions)
-                                self.search(filename, char)
+                                for char in root.iter('character'):
+                                    minions = char.find('minions')
+                                    char.remove(minions)
+                                    self.search(filename, char)
 
-                                for minion in minions.iter('character'):
-                                    self.search(filename, minion)
+                                    for minion in minions.iter('character'):
+                                        self.search(filename, minion)
                     self.progressFrame.update()
                     lab_zip.close()
                 except zipfile.BadZipfile:
