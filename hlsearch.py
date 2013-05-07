@@ -20,6 +20,7 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         self.searchThread = SearchThread()
         self.searchThread.entryFoundSignal.connect(self.entry_found)
         self.searchThread.searchFinishedSignal.connect(self.search_finished)
+        self.searchThread.searchErrorSignal.connect(self.search_error)
 
         self.actionFolder.triggered.connect(self.action_search_folder_triggered)
         self.searchButton.clicked.connect(self.search_button_clicked)
@@ -48,6 +49,7 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
     def search_button_clicked(self):
         """Search through the files and display the output"""
         self.row = 0
+        self.errors = ""
         self.searchButton.setDisabled(True)
         self.searchThread.start()
 
@@ -61,12 +63,18 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
 
     def search_finished(self):
         self.searchButton.setDisabled(False)
+        if self.errors:
+            QMessageBox.warning(self, __appname__ + " Errors", self.errors)
+
+    def search_error(self, error):
+        self.errors += error
 
 
 class SearchThread(QThread):
 
     entryFoundSignal = pyqtSignal(str, str, str)
     searchFinishedSignal = pyqtSignal()
+    searchErrorSignal = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(SearchThread, self).__init__(parent)
@@ -78,8 +86,10 @@ class SearchThread(QThread):
         time.sleep(1)
         self.entryFoundSignal.emit("testfile2.stock", "Test Two", "Test summary two")
         time.sleep(1)
+        self.searchErrorSignal.emit("Could not open file testfile10.stock\n")
         self.entryFoundSignal.emit("testfile3.stock", "Test Three", "Test summary three")
         time.sleep(1)
+        self.searchErrorSignal.emit("Could not open file testfile20.stock\n")
 
         self.searchFinishedSignal.emit()
 
