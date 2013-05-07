@@ -33,25 +33,33 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
             folder = os.getcwd()
 
         self.search_folder = folder
+        self.tableWidget.setColumnCount(3)
 
     def action_search_folder_triggered(self):
         """Ask the user for the search folder"""
 
-        self.search_folder = QFileDialog.getExistingDirectory(self, "Hero Lab Data Folder", self.search_folder,
-                                                              QFileDialog.ShowDirsOnly)
+        folder = QFileDialog.getExistingDirectory(self, "Hero Lab Data Folder", self.search_folder,
+                                                  QFileDialog.ShowDirsOnly)
 
-        self.settings.setValue('search_folder', self.search_folder)
+        if folder != '':
+            self.search_folder = folder
+            self.settings.setValue('search_folder', folder)
 
     def search_button_clicked(self):
         """Search through the files and display the output"""
+        self.row = 0
         self.searchButton.setDisabled(True)
         self.searchThread.start()
 
     def entry_found(self, file_name, name, summary):
-        print file_name, name, summary
+        if self.tableWidget.rowCount() < self.row + 1:
+            self.tableWidget.setRowCount(self.row + 1)
+        self.tableWidget.setItem(self.row, 0, QTableWidgetItem(file_name))
+        self.tableWidget.setItem(self.row, 1, QTableWidgetItem(name))
+        self.tableWidget.setItem(self.row, 2, QTableWidgetItem(summary))
+        self.row += 1
 
     def search_finished(self):
-        print "Search done."
         self.searchButton.setDisabled(False)
 
 
