@@ -9,14 +9,29 @@ About
 which will search through a directory of .por and .stock files and parse through them looking to match the creature
 names inside them against supplied user data.
 
+.. image:: http://tarsis.org/images/hlsearch.png
+
+
 Installation
 ------------
 
-Download and install Python_ 2.7.
+The application is a simple binary that you can download and run.
+
+`Windows binary <http://http://tarsis.org/builds/hlsearch.exe>`_
+
+`Linux 32bit binary <http://http://tarsis.org/builds/hlsearch.i386>`_
+
+`Linux 64bit binary <http://http://tarsis.org/builds/hlsearch.amd64>`_
+
+
+Installation from Source
+------------
+
+Install both Python_ 2.7 and PyQt4_.
 
 Download_ and unzip the app into a folder.
 
-Running
+Running from Source
 -------
 
 On Windows just double click the hlsearch.py file. Under Linux run:
@@ -39,3 +54,4 @@ License
 
 .. _python: http://www.python.org/
 .. _download: http://hg.tarsis.org/hlsearch/archive/tip.zip
+.. _pyqt4: http://www.riverbankcomputing.com/software/pyqt/download
