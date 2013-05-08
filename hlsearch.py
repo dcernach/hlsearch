@@ -82,6 +82,9 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         if self.errors and not self.actionWarnings.isChecked():
             QMessageBox.warning(self, __appname__ + " Errors", self.errors)
 
+        if self.tableWidget.rowCount() < 1:
+            QMessageBox.information(self, __appname__ + " No Results", "No search results found")
+
     def search_error(self, error):
         self.errors += error
 
