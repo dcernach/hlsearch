@@ -19,9 +19,9 @@ Download_ and unzip the app into a folder.
 Running
 -------
 
-On Windows just double click the main.py file. Under Linux run:
+On Windows just double click the hlsearch.py file. Under Linux run:
 
-    python main.py
+    python hlsearch.py
 
 Usage
 -----

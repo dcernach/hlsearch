@@ -6,7 +6,8 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from ui import mainWindow
 import os
-import time
+import re
+from herolab import HeroLabIndex
 
 
 class Main(QMainWindow, mainWindow.Ui_mainWindow):
@@ -24,6 +25,9 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
 
         self.actionFolder.triggered.connect(self.action_search_folder_triggered)
         self.searchButton.clicked.connect(self.search_button_clicked)
+        self.actionWarnings.triggered.connect(self.action_warnings_triggered)
+        self.searchEdit.returnPressed.connect(self.search_button_clicked)
+        self.actionExit.triggered.connect(self.close)
 
     def load_initial_settings(self):
         """Setup the initial values"""
@@ -35,6 +39,10 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
 
         self.search_folder = folder
         self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnWidth(0, 300)
+        self.tableWidget.setColumnWidth(1, 200)
+        if self.settings.contains('disable_warnings'):
+            self.actionWarnings.setChecked(self.settings.value('disable_warnings').toBool())
 
     def action_search_folder_triggered(self):
         """Ask the user for the search folder"""
@@ -46,16 +54,24 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
             self.search_folder = folder
             self.settings.setValue('search_folder', folder)
 
+    def action_warnings_triggered(self):
+        self.settings.setValue('disable_warnings', self.actionWarnings.isChecked())
+
     def search_button_clicked(self):
         """Search through the files and display the output"""
         self.row = 0
         self.errors = ""
         self.searchButton.setDisabled(True)
+        self.tableWidget.clearContents()
+        self.tableWidget.setRowCount(0)
+        self.searchThread.search_folder = self.search_folder
+        self.searchThread.search_text = str(self.searchEdit.text())
         self.searchThread.start()
 
     def entry_found(self, file_name, name, summary):
         if self.tableWidget.rowCount() < self.row + 1:
             self.tableWidget.setRowCount(self.row + 1)
+
         self.tableWidget.setItem(self.row, 0, QTableWidgetItem(file_name))
         self.tableWidget.setItem(self.row, 1, QTableWidgetItem(name))
         self.tableWidget.setItem(self.row, 2, QTableWidgetItem(summary))
@@ -63,7 +79,7 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
 
     def search_finished(self):
         self.searchButton.setDisabled(False)
-        if self.errors:
+        if self.errors and not self.actionWarnings.isChecked():
             QMessageBox.warning(self, __appname__ + " Errors", self.errors)
 
     def search_error(self, error):
@@ -82,14 +98,14 @@ class SearchThread(QThread):
     def run(self):
         """Here we'll search through the files and pass the output up"""
 
-        self.entryFoundSignal.emit("testfile1.stock", "Test One", "Test summary one")
-        time.sleep(1)
-        self.entryFoundSignal.emit("testfile2.stock", "Test Two", "Test summary two")
-        time.sleep(1)
-        self.searchErrorSignal.emit("Could not open file testfile10.stock\n")
-        self.entryFoundSignal.emit("testfile3.stock", "Test Three", "Test summary three")
-        time.sleep(1)
-        self.searchErrorSignal.emit("Could not open file testfile20.stock\n")
+        heroLabIndex = HeroLabIndex(self.search_folder)
+
+        for entry in heroLabIndex.get_creatures():
+            if re.search(self.search_text, entry["name"], re.IGNORECASE):
+                self.entryFoundSignal.emit(entry["filename"], entry["name"], entry["summary"])
+
+        for bad_file in heroLabIndex.bad_files:
+            self.searchErrorSignal.emit("Could not open file %s\n" % bad_file)
 
         self.searchFinishedSignal.emit()
 

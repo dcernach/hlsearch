@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Tue May  7 15:43:20 2013
+# Created: Wed May  8 10:14:24 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,6 +63,8 @@ class Ui_mainWindow(object):
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
+        self.menuOptions = QtGui.QMenu(self.menubar)
+        self.menuOptions.setObjectName(_fromUtf8("menuOptions"))
         mainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(mainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -78,9 +80,22 @@ class Ui_mainWindow(object):
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/folder.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionFolder.setIcon(icon)
         self.actionFolder.setObjectName(_fromUtf8("actionFolder"))
+        self.actionExit = QtGui.QAction(mainWindow)
+        self.actionExit.setObjectName(_fromUtf8("actionExit"))
+        self.actionWarnings = QtGui.QAction(mainWindow)
+        self.actionWarnings.setCheckable(True)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/error_list.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionWarnings.setIcon(icon1)
+        self.actionWarnings.setObjectName(_fromUtf8("actionWarnings"))
         self.menuFile.addAction(self.actionFolder)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionExit)
+        self.menuOptions.addAction(self.actionWarnings)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuOptions.menuAction())
         self.toolBar.addAction(self.actionFolder)
+        self.toolBar.addAction(self.actionWarnings)
 
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
@@ -96,10 +111,15 @@ class Ui_mainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(QtGui.QApplication.translate("mainWindow", "Summary", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("mainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuOptions.setTitle(QtGui.QApplication.translate("mainWindow", "Options", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("mainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFolder.setText(QtGui.QApplication.translate("mainWindow", "Search Folder", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFolder.setToolTip(QtGui.QApplication.translate("mainWindow", "Folder to search in", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFolder.setStatusTip(QtGui.QApplication.translate("mainWindow", "Folder to search in", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFolder.setShortcut(QtGui.QApplication.translate("mainWindow", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("mainWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionWarnings.setText(QtGui.QApplication.translate("mainWindow", "Disable Warnings", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionWarnings.setToolTip(QtGui.QApplication.translate("mainWindow", "Disable Warning Popup", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionWarnings.setStatusTip(QtGui.QApplication.translate("mainWindow", "Disable Warning Popup", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons_rc
