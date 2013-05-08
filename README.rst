@@ -17,11 +17,11 @@ Installation
 
 The application is a simple binary that you can download and run.
 
-`Windows binary <http://http://tarsis.org/builds/hlsearch.exe>`_
+`Windows binary <http://tarsis.org/builds/hlsearch.exe>`_
 
-`Linux 32bit binary <http://http://tarsis.org/builds/hlsearch.i386>`_
+`Linux 32bit binary <http://tarsis.org/builds/hlsearch.i386>`_
 
-`Linux 64bit binary <http://http://tarsis.org/builds/hlsearch.amd64>`_
+`Linux 64bit binary <http://tarsis.org/builds/hlsearch.amd64>`_
 
 
 Installation from Source
