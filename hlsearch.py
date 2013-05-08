@@ -85,6 +85,8 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         if self.tableWidget.rowCount() < 1:
             QMessageBox.information(self, __appname__ + " No Results", "No search results found")
 
+        self.tableWidget.setSortingEnabled(True)
+
     def search_error(self, error):
         self.errors += error
 
