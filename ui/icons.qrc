@@ -2,5 +2,6 @@
   <qresource>
     <file>folder.png</file>
     <file>error_list.png</file>
+    <file>hlsearch.png</file>
   </qresource>
 </RCC>

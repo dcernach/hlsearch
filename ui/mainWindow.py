@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Wed May  8 10:14:24 2013
+# Created: Wed May  8 12:36:22 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -24,6 +24,9 @@ class Ui_mainWindow(object):
         sizePolicy.setHeightForWidth(mainWindow.sizePolicy().hasHeightForWidth())
         mainWindow.setSizePolicy(sizePolicy)
         mainWindow.setMinimumSize(QtCore.QSize(902, 697))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/hlsearch.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        mainWindow.setWindowIcon(icon)
         mainWindow.setAutoFillBackground(False)
         self.centralwidget = QtGui.QWidget(mainWindow)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -76,17 +79,17 @@ class Ui_mainWindow(object):
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
         mainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionFolder = QtGui.QAction(mainWindow)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/folder.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionFolder.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/folder.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionFolder.setIcon(icon1)
         self.actionFolder.setObjectName(_fromUtf8("actionFolder"))
         self.actionExit = QtGui.QAction(mainWindow)
         self.actionExit.setObjectName(_fromUtf8("actionExit"))
         self.actionWarnings = QtGui.QAction(mainWindow)
         self.actionWarnings.setCheckable(True)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/error_list.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionWarnings.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/error_list.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionWarnings.setIcon(icon2)
         self.actionWarnings.setObjectName(_fromUtf8("actionWarnings"))
         self.menuFile.addAction(self.actionFolder)
         self.menuFile.addSeparator()

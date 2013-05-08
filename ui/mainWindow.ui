@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/hlsearch.png</normaloff>:/hlsearch.png</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
