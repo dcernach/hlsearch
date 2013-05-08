@@ -62,6 +62,7 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         self.row = 0
         self.errors = ""
         self.searchButton.setDisabled(True)
+        self.tableWidget.setSortingEnabled(False)
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.searchThread.search_folder = self.search_folder
