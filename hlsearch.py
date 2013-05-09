@@ -145,7 +145,7 @@ class HtmlDialog(QDialog, htmlDialog.Ui_htmlDialog):
 
 def main():
     QCoreApplication.setApplicationName("HLSearch")
-    QCoreApplication.setApplicationVersion("0.1")
+    QCoreApplication.setApplicationVersion("0.2")
     QCoreApplication.setOrganizationName("Tarsis")
     QCoreApplication.setOrganizationDomain("tarsis.org")
 
