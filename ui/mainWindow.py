@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainWindow.ui'
 #
-# Created: Wed May  8 12:36:22 2013
+# Created: Thu May  9 11:22:01 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,7 +50,7 @@ class Ui_mainWindow(object):
         sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
         self.tableWidget.setSizePolicy(sizePolicy)
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
-        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
@@ -58,6 +58,8 @@ class Ui_mainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.gridLayout.addWidget(self.tableWidget, 0, 0, 1, 2)
         mainWindow.setCentralWidget(self.centralwidget)
@@ -108,10 +110,12 @@ class Ui_mainWindow(object):
         self.searchEdit.setPlaceholderText(QtGui.QApplication.translate("mainWindow", "Creature name...", None, QtGui.QApplication.UnicodeUTF8))
         self.searchButton.setText(QtGui.QApplication.translate("mainWindow", "Search", None, QtGui.QApplication.UnicodeUTF8))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(QtGui.QApplication.translate("mainWindow", "Source", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(QtGui.QApplication.translate("mainWindow", "Filename", None, QtGui.QApplication.UnicodeUTF8))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(QtGui.QApplication.translate("mainWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(QtGui.QApplication.translate("mainWindow", "Source", None, QtGui.QApplication.UnicodeUTF8))
         item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(QtGui.QApplication.translate("mainWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
+        item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(QtGui.QApplication.translate("mainWindow", "Summary", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("mainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuOptions.setTitle(QtGui.QApplication.translate("mainWindow", "Options", None, QtGui.QApplication.UnicodeUTF8))

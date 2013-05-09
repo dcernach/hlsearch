@@ -4,10 +4,10 @@ __module__ = "main"
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from ui import mainWindow
+from ui import mainWindow, htmlDialog
 import os
 import re
-from herolab import HeroLabIndex
+from herolab import HeroLabIndex, HeroLab
 
 
 class Main(QMainWindow, mainWindow.Ui_mainWindow):
@@ -28,6 +28,7 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         self.actionWarnings.triggered.connect(self.action_warnings_triggered)
         self.searchEdit.returnPressed.connect(self.search_button_clicked)
         self.actionExit.triggered.connect(self.close)
+        self.tableWidget.cellDoubleClicked.connect(self.table_widget_doubleclicked)
 
     def load_initial_settings(self):
         """Setup the initial values"""
@@ -38,9 +39,11 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
             folder = os.getcwd()
 
         self.search_folder = folder
-        self.tableWidget.setColumnCount(3)
-        self.tableWidget.setColumnWidth(0, 300)
-        self.tableWidget.setColumnWidth(1, 200)
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.hideColumn(0)
+
+        self.tableWidget.setColumnWidth(1, 300)
+        self.tableWidget.setColumnWidth(2, 200)
         if self.settings.contains('disable_warnings'):
             self.actionWarnings.setChecked(self.settings.value('disable_warnings').toBool())
 
@@ -69,13 +72,14 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
         self.searchThread.search_text = str(self.searchEdit.text())
         self.searchThread.start()
 
-    def entry_found(self, file_name, name, summary):
+    def entry_found(self, source, filename, name, summary):
         if self.tableWidget.rowCount() < self.row + 1:
             self.tableWidget.setRowCount(self.row + 1)
 
-        self.tableWidget.setItem(self.row, 0, QTableWidgetItem(file_name))
-        self.tableWidget.setItem(self.row, 1, QTableWidgetItem(name))
-        self.tableWidget.setItem(self.row, 2, QTableWidgetItem(summary))
+        self.tableWidget.setItem(self.row, 0, QTableWidgetItem(filename))
+        self.tableWidget.setItem(self.row, 1, QTableWidgetItem(source))
+        self.tableWidget.setItem(self.row, 2, QTableWidgetItem(name))
+        self.tableWidget.setItem(self.row, 3, QTableWidgetItem(summary))
         self.row += 1
 
     def search_finished(self):
@@ -91,10 +95,21 @@ class Main(QMainWindow, mainWindow.Ui_mainWindow):
     def search_error(self, error):
         self.errors += error
 
+    def table_widget_doubleclicked(self, row, _):
+        filename = self.tableWidget.item(row, 0).text()
+        source = self.tableWidget.item(row, 1).text()
+
+        heroLab = HeroLab(self.search_folder, source, filename)
+        if heroLab.html != '':
+            htmlDialog = HtmlDialog(self)
+            htmlDialog.show_html(heroLab.html)
+        else:
+            QMessageBox.warning(self, __appname__ + " Error", "Could not find HTML in file")
+
 
 class SearchThread(QThread):
 
-    entryFoundSignal = pyqtSignal(str, str, str)
+    entryFoundSignal = pyqtSignal(str, str, str, str)
     searchFinishedSignal = pyqtSignal()
     searchErrorSignal = pyqtSignal(str)
 
@@ -108,12 +123,24 @@ class SearchThread(QThread):
 
         for entry in heroLabIndex.get_creatures():
             if re.search(self.search_text, entry["name"], re.IGNORECASE):
-                self.entryFoundSignal.emit(entry["filename"], entry["name"], entry["summary"])
+                self.entryFoundSignal.emit(entry["source"], entry["filename"], entry["name"], entry["summary"])
 
         for bad_file in heroLabIndex.bad_files:
             self.searchErrorSignal.emit("Could not open file %s\n" % bad_file)
 
         self.searchFinishedSignal.emit()
+
+
+class HtmlDialog(QDialog, htmlDialog.Ui_htmlDialog):
+
+    def __init__(self, parent):
+        super(HtmlDialog, self).__init__(parent)
+        self.setupUi(self)
+        self.setWindowTitle(__appname__ + " Statblock")
+
+    def show_html(self, html):
+        self.webView.setHtml(html)
+        self.show()
 
 
 def main():
