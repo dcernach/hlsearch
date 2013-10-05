@@ -52,14 +52,19 @@ class HeroLabIndex:
                             index_char.remove(minions)
                             name = index_char.get('name')
                             summary = index_char.get('summary')
-                            found = re.search(' CR (\d+/?\d*)$', summary)
-                            cr = found.group(1)
+                            found = re.search(' CR (\d+/?\d*)/?M?R?\s*(\d*/?\d*)$', summary)
+                            cr = ''
+                            mr = ''
+                            if found is not None:
+                                cr = found.group(1)
+                                if found.group(2) is not None:
+                                    mr = found.group(2)
                             char_filename = ''
                             for statblock in index_char.iter('statblock'):
                                 char_filename = statblock.get('filename')
                                 char_filename = re.sub(r"\.\w\w\w$", "", char_filename)
                             yield {"name": name, "summary": summary, "cr": cr, "source": filename,
-                                   "filename": char_filename}
+                                   "filename": char_filename, "mr": mr}
                             for minion in minions.iter('character'):
                                 if name.endswith('s'):
                                     minion_name = name + "' " + minion.get('name')
@@ -67,25 +72,35 @@ class HeroLabIndex:
                                     minion_name = name + "'s " + minion.get('name')
 
                                 summary = minion.get('summary')
-                                found = re.search(' CR (\d+/?\d*)$', summary)
-                                cr = found.group(1)
+                                found = re.search(' CR (\d+/?\d*)/?M?R?\s*(\d*/?\d*)$', summary)
+                                cr = ''
+                                mr = ''
+                                if found is not None:
+                                    cr = found.group(1)
+                                    if found.group(2) is not None:
+                                        mr = found.group(2)
                                 char_filename = ''
                                 for statblock in minion.iter('statblock'):
                                     char_filename = statblock.get('filename')
                                     char_filename = re.sub(r"\.\w\w\w$", "", char_filename)
                                 yield {"name": minion_name, "summary": summary, "cr": cr, "source": filename,
-                                       "filename": char_filename}
+                                       "filename": char_filename, "mr": mr}
                         else:
                             name = index_char.get('name')
                             summary = index_char.get('summary')
-                            found = re.search(' CR (\d+/?\d*)$', summary)
-                            cr = found.group(1)
+                            found = re.search(' CR (\d+/?\d*)/?M?R?\s*(\d*/?\d*)$', summary)
+                            cr = ''
+                            mr = ''
+                            if found is not None:
+                                cr = found.group(1)
+                                if found.group(2) is not None:
+                                    mr = found.group(2)
                             char_filename = ''
                             for statblock in index_char.iter('statblock'):
                                 char_filename = statblock.get('filename')
                                 char_filename = re.sub(r"\.\w\w\w$", "", char_filename)
                             yield {"name": name, "summary": summary, "cr": cr, "source": filename,
-                                   "filename": char_filename}
+                                   "filename": char_filename, "mr": mr}
 
                     lab_zip.close()
                 except zipfile.BadZipfile:
